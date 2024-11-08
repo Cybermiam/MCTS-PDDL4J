@@ -1,42 +1,49 @@
-(define (domain Depot)
-(:requirements :typing)
-(:types place locatable - object
-	depot distributor - place
-        truck hoist surface - locatable
-        pallet crate - surface)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 4 Op-blocks world
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(:predicates (at ?x - locatable ?y - place) 
-             (on ?x - crate ?y - surface)
-             (in ?x - crate ?y - truck)
-             (lifting ?x - hoist ?y - crate)
-             (available ?x - hoist)
-             (clear ?x - surface))
-	
-(:action Drive
-:parameters (?x - truck ?y - place ?z - place) 
-:precondition (and (at ?x ?y))
-:effect (and (not (at ?x ?y)) (at ?x ?z)))
+(define (domain blocks)
+  (:requirements :strips :typing)
+  (:types block)
+  (:predicates (on ?x - block ?y - block)
+	       (ontable ?x - block)
+	       (clear ?x - block)
+	       (handempty)
+	       (holding ?x - block)
+	       )
 
-(:action Lift
-:parameters (?x - hoist ?y - crate ?z - surface ?p - place)
-:precondition (and (at ?x ?p) (available ?x) (at ?y ?p) (on ?y ?z) (clear ?y))
-:effect (and (not (at ?y ?p)) (lifting ?x ?y) (not (clear ?y)) (not (available ?x)) 
-             (clear ?z) (not (on ?y ?z))))
+  (:action pick-up
+	     :parameters (?x - block)
+	     :precondition (and (clear ?x) (ontable ?x) (handempty))
+	     :effect
+	     (and (not (ontable ?x))
+		   (not (clear ?x))
+		   (not (handempty))
+		   (holding ?x)))
 
-(:action Drop 
-:parameters (?x - hoist ?y - crate ?z - surface ?p - place)
-:precondition (and (at ?x ?p) (at ?z ?p) (clear ?z) (lifting ?x ?y))
-:effect (and (available ?x) (not (lifting ?x ?y)) (at ?y ?p) (not (clear ?z)) (clear ?y)
-		(on ?y ?z)))
-
-(:action Load
-:parameters (?x - hoist ?y - crate ?z - truck ?p - place)
-:precondition (and (at ?x ?p) (at ?z ?p) (lifting ?x ?y))
-:effect (and (not (lifting ?x ?y)) (in ?y ?z) (available ?x)))
-
-(:action Unload 
-:parameters (?x - hoist ?y - crate ?z - truck ?p - place)
-:precondition (and (at ?x ?p) (at ?z ?p) (available ?x) (in ?y ?z))
-:effect (and (not (in ?y ?z)) (not (available ?x)) (lifting ?x ?y)))
-
-)
+  (:action put-down
+	     :parameters (?x - block)
+	     :precondition (holding ?x)
+	     :effect
+	     (and (not (holding ?x))
+		   (clear ?x)
+		   (handempty)
+		   (ontable ?x)))
+  (:action stack
+	     :parameters (?x - block ?y - block)
+	     :precondition (and (holding ?x) (clear ?y))
+	     :effect
+	     (and (not (holding ?x))
+		   (not (clear ?y))
+		   (clear ?x)
+		   (handempty)
+		   (on ?x ?y)))
+  (:action unstack
+	     :parameters (?x - block ?y - block)
+	     :precondition (and (on ?x ?y) (clear ?x) (handempty))
+	     :effect
+	     (and (holding ?x)
+		   (clear ?y)
+		   (not (clear ?x))
+		   (not (handempty))
+		   (not (on ?x ?y)))))

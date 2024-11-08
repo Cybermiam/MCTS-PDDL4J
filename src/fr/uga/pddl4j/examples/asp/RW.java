@@ -19,12 +19,14 @@ package fr.uga.pddl4j.examples.asp;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  import picocli.CommandLine;
- 
- import java.util.Comparator;
+
+import java.util.ArrayList;
+import java.util.Comparator;
  import java.util.HashSet;
  import java.util.List;
  import java.util.PriorityQueue;
- import java.util.Set;
+import java.util.Random;
+import java.util.Set;
  
  /**
   * The class is an example. It shows how to create a simple A* search planner able to
@@ -43,12 +45,12 @@ package fr.uga.pddl4j.examples.asp;
      descriptionHeading = "%nDescription:%n%n",
      parameterListHeading = "%nParameters:%n",
      optionListHeading = "%nOptions:%n")
- public class ASP extends AbstractPlanner {
+ public class RW extends AbstractPlanner {
  
      /**
       * The class logger.
       */
-     private static final Logger LOGGER = LogManager.getLogger(ASP.class.getName());
+     private static final Logger LOGGER = LogManager.getLogger(RW.class.getName());
  /**
       * Instantiates the planning problem from a parsed problem.
       *
@@ -125,7 +127,7 @@ package fr.uga.pddl4j.examples.asp;
       */
       public static void main(String[] args) {
         try {
-            final ASP planner = new ASP();
+            final RW planner = new RW();
             CommandLine cmd = new CommandLine(planner);
             cmd.execute(args);
         } catch (IllegalArgumentException e) {
@@ -286,6 +288,72 @@ package fr.uga.pddl4j.examples.asp;
         return plan;
     }
 
+    public Plan random(Problem problem)  {
+    // Check if the problem is supported by the planner
+
+    // We get the initial state from the planning problem
+    final State init = new State(problem.getInitialState());
+
+    // We initialize the closed list of nodes (store the nodes explored)
+    final Set<Node> close = new HashSet<>();
+
+    // We initialize the opened list to store the pending nodes
+    final List<Node> open = new ArrayList<>();
+
+    // We create the root node of the tree search
+    final Node root = new Node(init, null, -1, 0, 0);
+
+    // We add the root to the list of pending nodes
+    open.add(root);
+    Plan plan = null;
+
+    // We set the timeout in ms allocated to the search
+    final int timeout = this.getTimeout() * 1000;
+    long startTime = System.currentTimeMillis();
+
+    // We start the search
+    Random random = new Random();
+    for (int i = 0; i < 1000; i++) {
+        // We pop the first node in the pending list open
+        final Node current = open.get(random.nextInt(open.size()));
+        close.add(current);
+
+        // If the goal is satisfied in the current node then extract the search and return it
+        if (current.satisfy(problem.getGoal())) {
+            return this.extractPlan(current, problem);
+        } else { // Else we try to apply the actions of the problem to the current node
+            for (int j = 0; j < problem.getActions().size(); j++) {
+                // We get the actions of the problem
+                Action a = problem.getActions().get(j);
+                // If the action is applicable in the current node
+                if (a.isApplicable(current)) {
+                    Node next = new Node(current);
+                    // We apply the effect of the action
+                    final List<ConditionalEffect> effects = a.getConditionalEffects();
+                    for (ConditionalEffect ce : effects) {
+                        if (current.satisfy(ce.getCondition())) {
+                            next.apply(ce.getEffect());
+                        }
+                    }
+                    // We set the new child node information
+                    final double g = current.getCost() + 1;
+                    if (!close.contains(next)) {
+                        next.setCost(g);
+                        next.setParent(current);
+                        next.setAction(j);
+                        open.add(next);
+                    }
+                }
+            }
+        }
+        
+    }
+    return plan;
+    
+}
+
+
+
     /**
       * Extracts a search from a specified node.
       *
@@ -312,8 +380,8 @@ package fr.uga.pddl4j.examples.asp;
       @Override
       public PlannerConfiguration getConfiguration() {
           final PlannerConfiguration config = super.getConfiguration();
-          config.setProperty(ASP.HEURISTIC_SETTING, this.getHeuristic().toString());
-          config.setProperty(ASP.WEIGHT_HEURISTIC_SETTING, Double.toString(this.getHeuristicWeight()));
+          config.setProperty(RW.HEURISTIC_SETTING, this.getHeuristic().toString());
+          config.setProperty(RW.WEIGHT_HEURISTIC_SETTING, Double.toString(this.getHeuristicWeight()));
           return config;
       }
   
@@ -326,17 +394,17 @@ package fr.uga.pddl4j.examples.asp;
       @Override
       public void setConfiguration(final PlannerConfiguration configuration) {
           super.setConfiguration(configuration);
-          if (configuration.getProperty(ASP.WEIGHT_HEURISTIC_SETTING) == null) {
-              this.setHeuristicWeight(ASP.DEFAULT_WEIGHT_HEURISTIC);
+          if (configuration.getProperty(RW.WEIGHT_HEURISTIC_SETTING) == null) {
+              this.setHeuristicWeight(RW.DEFAULT_WEIGHT_HEURISTIC);
           } else {
               this.setHeuristicWeight(Double.parseDouble(configuration.getProperty(
-                  ASP.WEIGHT_HEURISTIC_SETTING)));
+                  RW.WEIGHT_HEURISTIC_SETTING)));
           }
-          if (configuration.getProperty(ASP.HEURISTIC_SETTING) == null) {
-              this.setHeuristic(ASP.DEFAULT_HEURISTIC);
+          if (configuration.getProperty(RW.HEURISTIC_SETTING) == null) {
+              this.setHeuristic(RW.DEFAULT_HEURISTIC);
           } else {
               this.setHeuristic(StateHeuristic.Name.valueOf(configuration.getProperty(
-                  ASP.HEURISTIC_SETTING)));
+                  RW.HEURISTIC_SETTING)));
           }
       }
 
@@ -346,9 +414,9 @@ package fr.uga.pddl4j.examples.asp;
       */
      public static PlannerConfiguration getDefaultConfiguration() {
          PlannerConfiguration config = Planner.getDefaultConfiguration();
-         config.setProperty(ASP.HEURISTIC_SETTING, ASP.DEFAULT_HEURISTIC.toString());
-         config.setProperty(ASP.WEIGHT_HEURISTIC_SETTING,
-             Double.toString(ASP.DEFAULT_WEIGHT_HEURISTIC));
+         config.setProperty(RW.HEURISTIC_SETTING, RW.DEFAULT_HEURISTIC.toString());
+         config.setProperty(RW.WEIGHT_HEURISTIC_SETTING,
+             Double.toString(RW.DEFAULT_WEIGHT_HEURISTIC));
          return config;
      }
 
@@ -369,8 +437,8 @@ package fr.uga.pddl4j.examples.asp;
     /**
      * Creates a new A* search planner with the default configuration.
      */
-    public ASP() {
-        this(ASP.getDefaultConfiguration());
+    public RW() {
+        this(RW.getDefaultConfiguration());
     }
 
     /**
@@ -378,7 +446,7 @@ package fr.uga.pddl4j.examples.asp;
      *
      * @param configuration the configuration of the planner.
      */
-    public ASP(final PlannerConfiguration configuration) {
+    public RW(final PlannerConfiguration configuration) {
         super();
         this.setConfiguration(configuration);
     }
