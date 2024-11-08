@@ -1,0 +1,4 @@
+p07.pddl timed out, duration = 5 minutes
+p08.pddl timed out, duration = 5 minutes
+p09.pddl timed out, duration = 5 minutes
+p10.pddl timed out, duration = 5 minutes

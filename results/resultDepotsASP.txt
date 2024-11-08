@@ -1,0 +1,70 @@
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 11, file (.\pddl\depots\problems\p01.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 30, file (.\pddl\depots\problems\p01.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p01.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 28, file (.\pddl\depots\problems\p01.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 18, file (.\pddl\depots\problems\p01.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 25, file (.\pddl\depots\problems\p01.pddl) : type "Hoist" of the object "hoist0" is undefined
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 11, file (.\pddl\depots\problems\p02.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 30, file (.\pddl\depots\problems\p02.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p02.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 28, file (.\pddl\depots\problems\p02.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 32, file (.\pddl\depots\problems\p02.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 25, file (.\pddl\depots\problems\p02.pddl) : type "Hoist" of the object "hoist0" is undefined
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 11, file (.\pddl\depots\problems\p03.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 30, file (.\pddl\depots\problems\p03.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p03.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 28, file (.\pddl\depots\problems\p03.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 46, file (.\pddl\depots\problems\p03.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 25, file (.\pddl\depots\problems\p03.pddl) : type "Hoist" of the object "hoist0" is undefined
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 11, file (.\pddl\depots\problems\p04.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 30, file (.\pddl\depots\problems\p04.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p04.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 28, file (.\pddl\depots\problems\p04.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 60, file (.\pddl\depots\problems\p04.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 25, file (.\pddl\depots\problems\p04.pddl) : type "Hoist" of the object "hoist0" is undefined
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 11, file (.\pddl\depots\problems\p05.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 30, file (.\pddl\depots\problems\p05.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p05.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 28, file (.\pddl\depots\problems\p05.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 74, file (.\pddl\depots\problems\p05.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 25, file (.\pddl\depots\problems\p05.pddl) : type "Hoist" of the object "hoist0" is undefined
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 11, file (.\pddl\depots\problems\p06.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 30, file (.\pddl\depots\problems\p06.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p06.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 28, file (.\pddl\depots\problems\p06.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 114, file (.\pddl\depots\problems\p06.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 25, file (.\pddl\depots\problems\p06.pddl) : type "Hoist" of the object "hoist0" is undefined
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 11, file (.\pddl\depots\problems\p07.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 30, file (.\pddl\depots\problems\p07.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p07.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 52, file (.\pddl\depots\problems\p07.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 46, file (.\pddl\depots\problems\p07.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 25, file (.\pddl\depots\problems\p07.pddl) : type "Hoist" of the object "hoist0" is undefined
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 11, file (.\pddl\depots\problems\p08.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 30, file (.\pddl\depots\problems\p08.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p08.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 52, file (.\pddl\depots\problems\p08.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 74, file (.\pddl\depots\problems\p08.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 25, file (.\pddl\depots\problems\p08.pddl) : type "Hoist" of the object "hoist0" is undefined
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 11, file (.\pddl\depots\problems\p09.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 30, file (.\pddl\depots\problems\p09.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p09.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 52, file (.\pddl\depots\problems\p09.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 114, file (.\pddl\depots\problems\p09.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 25, file (.\pddl\depots\problems\p09.pddl) : type "Hoist" of the object "hoist0" is undefined
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Parser error at line 3, column 25, file (.\pddl\depots\problems\p10.pddl) : type "Depot" of the object "depot0" is undefined
+Parser error at line 4, column 43, file (.\pddl\depots\problems\p10.pddl) : type "Distributor" of the object "distributor0" is undefined
+Parser error at line 5, column 18, file (.\pddl\depots\problems\p10.pddl) : type "Truck" of the object "truck0" is undefined
+Parser error at line 6, column 52, file (.\pddl\depots\problems\p10.pddl) : type "Pallet" of the object "pallet0" is undefined
+Parser error at line 7, column 46, file (.\pddl\depots\problems\p10.pddl) : type "Crate" of the object "crate0" is undefined
+Parser error at line 8, column 46, file (.\pddl\depots\problems\p10.pddl) : type "Hoist" of the object "hoist0" is undefined
