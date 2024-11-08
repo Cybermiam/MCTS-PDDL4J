@@ -2,4 +2,4 @@
 
 COMPIL : javac -d classes -cp lib/pddl4j-4.0.0.jar src/fr/uga/pddl4j/examples/asp/*.java
 
-EXEC : java -cp "classes;lib/pddl4j-4.0.0.jar" fr.uga.pddl4j.examples.asp.RW .\tests\domain\domain.pddl .\tests\problems\p002.pddl -e FAST_FORWARD -w 1.2 -t 1000
+EXEC : java -cp "classes;lib/pddl4j-4.0.0.jar" fr.uga.pddl4j.examples.asp.MCRW .\pddl\#exercice\domain\domain.pddl .\pddl\#exercice\problems\pxxx.pddl -e FAST_FORWARD -w 1.2 -t 1000

@@ -46,12 +46,12 @@ import java.util.Set;
      descriptionHeading = "%nDescription:%n%n",
      parameterListHeading = "%nParameters:%n",
      optionListHeading = "%nOptions:%n")
- public class RW extends AbstractPlanner {
+ public class MCRW extends AbstractPlanner {
  
      /**
       * The class logger.
       */
-     private static final Logger LOGGER = LogManager.getLogger(RW.class.getName());
+     private static final Logger LOGGER = LogManager.getLogger(MCRW.class.getName());
  /**
       * Instantiates the planning problem from a parsed problem.
       *
@@ -128,7 +128,7 @@ import java.util.Set;
       */
       public static void main(String[] args) {
         try {
-            final RW planner = new RW();
+            final MCRW planner = new MCRW();
             CommandLine cmd = new CommandLine(planner);
             cmd.execute(args);
         } catch (IllegalArgumentException e) {
@@ -429,8 +429,8 @@ import java.util.Set;
       @Override
       public PlannerConfiguration getConfiguration() {
           final PlannerConfiguration config = super.getConfiguration();
-          config.setProperty(RW.HEURISTIC_SETTING, this.getHeuristic().toString());
-          config.setProperty(RW.WEIGHT_HEURISTIC_SETTING, Double.toString(this.getHeuristicWeight()));
+          config.setProperty(MCRW.HEURISTIC_SETTING, this.getHeuristic().toString());
+          config.setProperty(MCRW.WEIGHT_HEURISTIC_SETTING, Double.toString(this.getHeuristicWeight()));
           return config;
       }
   
@@ -443,17 +443,17 @@ import java.util.Set;
       @Override
       public void setConfiguration(final PlannerConfiguration configuration) {
           super.setConfiguration(configuration);
-          if (configuration.getProperty(RW.WEIGHT_HEURISTIC_SETTING) == null) {
-              this.setHeuristicWeight(RW.DEFAULT_WEIGHT_HEURISTIC);
+          if (configuration.getProperty(MCRW.WEIGHT_HEURISTIC_SETTING) == null) {
+              this.setHeuristicWeight(MCRW.DEFAULT_WEIGHT_HEURISTIC);
           } else {
               this.setHeuristicWeight(Double.parseDouble(configuration.getProperty(
-                  RW.WEIGHT_HEURISTIC_SETTING)));
+                  MCRW.WEIGHT_HEURISTIC_SETTING)));
           }
-          if (configuration.getProperty(RW.HEURISTIC_SETTING) == null) {
-              this.setHeuristic(RW.DEFAULT_HEURISTIC);
+          if (configuration.getProperty(MCRW.HEURISTIC_SETTING) == null) {
+              this.setHeuristic(MCRW.DEFAULT_HEURISTIC);
           } else {
               this.setHeuristic(StateHeuristic.Name.valueOf(configuration.getProperty(
-                  RW.HEURISTIC_SETTING)));
+                  MCRW.HEURISTIC_SETTING)));
           }
       }
 
@@ -463,9 +463,9 @@ import java.util.Set;
       */
      public static PlannerConfiguration getDefaultConfiguration() {
          PlannerConfiguration config = Planner.getDefaultConfiguration();
-         config.setProperty(RW.HEURISTIC_SETTING, RW.DEFAULT_HEURISTIC.toString());
-         config.setProperty(RW.WEIGHT_HEURISTIC_SETTING,
-             Double.toString(RW.DEFAULT_WEIGHT_HEURISTIC));
+         config.setProperty(MCRW.HEURISTIC_SETTING, MCRW.DEFAULT_HEURISTIC.toString());
+         config.setProperty(MCRW.WEIGHT_HEURISTIC_SETTING,
+             Double.toString(MCRW.DEFAULT_WEIGHT_HEURISTIC));
          return config;
      }
 
@@ -486,8 +486,8 @@ import java.util.Set;
     /**
      * Creates a new A* search planner with the default configuration.
      */
-    public RW() {
-        this(RW.getDefaultConfiguration());
+    public MCRW() {
+        this(MCRW.getDefaultConfiguration());
     }
 
     /**
@@ -495,7 +495,7 @@ import java.util.Set;
      *
      * @param configuration the configuration of the planner.
      */
-    public RW(final PlannerConfiguration configuration) {
+    public MCRW(final PlannerConfiguration configuration) {
         super();
         this.setConfiguration(configuration);
     }
