@@ -46,7 +46,7 @@ import java.util.Set;
      descriptionHeading = "%nDescription:%n%n",
      parameterListHeading = "%nParameters:%n",
      optionListHeading = "%nOptions:%n")
- public class RW extends AbstractPlanner {
+ public class MTCOpti extends AbstractPlanner {
  
      /**
       * The class logger.
@@ -486,8 +486,8 @@ import java.util.Set;
     /**
      * Creates a new A* search planner with the default configuration.
      */
-    public RW() {
-        this(RW.getDefaultConfiguration());
+    public MTCOpti() {
+        this(MTCOpti.getDefaultConfiguration());
     }
 
     /**
@@ -495,7 +495,7 @@ import java.util.Set;
      *
      * @param configuration the configuration of the planner.
      */
-    public RW(final PlannerConfiguration configuration) {
+    public MTCOpti(final PlannerConfiguration configuration) {
         super();
         this.setConfiguration(configuration);
     }
