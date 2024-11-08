@@ -69,8 +69,23 @@ package fr.uga.pddl4j.examples.asp;
       */
      @Override
      public Plan solve(final Problem problem) {
-        return null;
-    }
+         // Creates the A* search strategy
+         StateSpaceSearch search = StateSpaceSearch.getInstance(SearchStrategy.Name.ASTAR,
+             this.getHeuristic(), this.getHeuristicWeight(), this.getTimeout());
+         LOGGER.info("* Starting A* search \n");
+         // Search a solution
+         Plan plan = search.searchPlan(problem);
+         // If a plan is found update the statistics of the planner and log search information
+         if (plan != null) {
+             LOGGER.info("* A* search succeeded\n");
+             this.getStatistics().setTimeToSearch(search.getSearchingTime());
+             this.getStatistics().setMemoryUsedToSearch(search.getMemoryUsed());
+         } else {
+             LOGGER.info("* A* search failed\n");
+         }
+         // Return the plan found or null if the search fails.
+         return plan;
+     }
 /**
       * The weight of the heuristic.
       */
