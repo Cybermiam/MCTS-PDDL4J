@@ -15,6 +15,7 @@ package fr.uga.pddl4j.examples.asp;
  import fr.uga.pddl4j.problem.Problem;
  import fr.uga.pddl4j.problem.State;
  import fr.uga.pddl4j.problem.operator.Action;
+ import fr.uga.pddl4j.problem.operator.Condition;
  import fr.uga.pddl4j.problem.operator.ConditionalEffect;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -98,7 +99,7 @@ import java.util.Set;
         LOGGER.info("* Starting A* search \n");
         // Search a solution
         final long begin = System.currentTimeMillis();
-        final Plan plan = this.astar(problem);
+        final Plan plan = this.pureRandomWalk(problem);
         final long end = System.currentTimeMillis();
         // If a plan is found update the statistics of the planner
         // and log search information
@@ -260,6 +261,7 @@ import java.util.Set;
                 for (int i = 0; i < problem.getActions().size(); i++) {
                     // We get the actions of the problem
                     Action a = problem.getActions().get(i);
+                    System.out.println(a);
                     // If the action is applicable in the current node
                     if (a.isApplicable(current)) {
                         Node next = new Node(current);
@@ -288,69 +290,108 @@ import java.util.Set;
         return plan;
     }
 
-    public Plan random(Problem problem)  {
-    // Check if the problem is supported by the planner
-
-    // We get the initial state from the planning problem
-    final State init = new State(problem.getInitialState());
-
-    // We initialize the closed list of nodes (store the nodes explored)
-    final Set<Node> close = new HashSet<>();
-
-    // We initialize the opened list to store the pending nodes
-    final List<Node> open = new ArrayList<>();
-
-    // We create the root node of the tree search
-    final Node root = new Node(init, null, -1, 0, 0);
-
-    // We add the root to the list of pending nodes
-    open.add(root);
-    Plan plan = null;
-
-    // We set the timeout in ms allocated to the search
-    final int timeout = this.getTimeout() * 1000;
-    long startTime = System.currentTimeMillis();
-
-    // We start the search
-    Random random = new Random();
-    for (int i = 0; i < 1000; i++) {
-        // We pop the first node in the pending list open
-        final Node current = open.get(random.nextInt(open.size()));
-        close.add(current);
-
-        // If the goal is satisfied in the current node then extract the search and return it
-        if (current.satisfy(problem.getGoal())) {
-            return this.extractPlan(current, problem);
-        } else { // Else we try to apply the actions of the problem to the current node
-            for (int j = 0; j < problem.getActions().size(); j++) {
-                // We get the actions of the problem
-                Action a = problem.getActions().get(j);
-                // If the action is applicable in the current node
-                if (a.isApplicable(current)) {
-                    Node next = new Node(current);
-                    // We apply the effect of the action
-                    final List<ConditionalEffect> effects = a.getConditionalEffects();
-                    for (ConditionalEffect ce : effects) {
-                        if (current.satisfy(ce.getCondition())) {
-                            next.apply(ce.getEffect());
-                        }
-                    }
-                    // We set the new child node information
-                    final double g = current.getCost() + 1;
-                    if (!close.contains(next)) {
-                        next.setCost(g);
-                        next.setParent(current);
-                        next.setAction(j);
-                        open.add(next);
-                    }
-                }
+    public boolean deadEnd(Problem problem, Node node) {
+        List<Action> actions = new ArrayList<>();
+        for (int i = 0; i < problem.getActions().size(); i++) {
+            Action a = problem.getActions().get(i);
+            if (a.isApplicable(node)) {
+               actions.add(a);
             }
         }
-        
+        return actions.isEmpty();
     }
-    return plan;
-    
-}
+
+    public Plan pureRandomWalk(Problem problem)  {
+        // We get the initial state from the planning problem
+        int hMin = Integer.MAX_VALUE;
+        Node sMin = null;
+        Condition goal = problem.getGoal();
+        StateHeuristic heuristic = StateHeuristic.getInstance(this.getHeuristic(), problem);
+        State s0 = new State(problem.getInitialState());
+        Node s = new Node(s0, null, -1, 0, heuristic.estimate(s0, problem.getGoal()));
+        int counter = 0;
+
+        while (!s.satisfy(goal)){
+        System.out.println("while");
+        if (counter == 7 || deadEnd(problem, s)) {
+            System.out.println("if counter");
+            s = new Node(s0, null, -1, 0, heuristic.estimate(s0, problem.getGoal()));
+            counter = 0;
+        }
+        for (int i = 0; i < 2000; i++) {
+            System.out.println("for i");
+            Node sPrime = new Node(s, s.getParent(), s.getAction(), s.getCost(), s.getHeuristic());
+            
+            for (int j = 0; j < 10; j++) {
+                System.out.println("for j");
+                List<Action> actions = problem.getActions();
+                Random rand = new Random();
+                
+                
+                for (int k = 0; k < actions.size() -1; k++) {
+                    System.out.println("for actions");
+                    if (!actions.get(k).isApplicable(sPrime)) {
+                        actions.remove(k);
+                    }
+                }
+                if (actions.isEmpty()) {
+                    System.out.println("if actions vide");
+                    break;
+                }
+
+                int actionIndex = rand.nextInt(actions.size());
+                Action a = actions.get(actionIndex);
+
+                int index = problem.getActions().indexOf(a);
+
+                Node next = new Node(sPrime);
+                
+                final List<ConditionalEffect> effects = a.getConditionalEffects();
+                for (ConditionalEffect ce : effects) {
+                    if (next.satisfy(ce.getCondition())) {
+                        System.out.println("if next satisfy");
+                        System.out.println(ce.getEffect());
+                        next.apply(ce.getEffect());
+                    }
+                }
+
+                next.setCost(0);
+                next.setParent(s);
+                next.setAction(index);
+                next.setHeuristic(heuristic.estimate(next, problem.getGoal()));
+
+                if (next.satisfy(goal)) {
+                    System.out.println("if next satisfy goal");
+                    return extractPlan(next, problem);
+                } 
+                System.out.println("next affecté a sPrime");
+                sPrime = next;
+                            
+            }
+
+            int h = heuristic.estimate(sPrime, problem.getGoal());
+            
+            if (h < hMin) {
+                System.out.println("if h < hMin");
+                
+                hMin = h;
+                System.out.println(hMin);
+                sMin = sPrime;
+                counter = 0;
+            } else {
+                counter++;
+            }
+
+            
+        }
+        if (sMin == null) {
+            System.out.println("if sMin null");
+            sMin = s; 
+        }
+    }
+    return extractPlan(sMin, problem);
+    }
+
 
 
 
