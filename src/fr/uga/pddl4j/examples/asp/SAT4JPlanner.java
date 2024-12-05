@@ -6,22 +6,14 @@ import fr.uga.pddl4j.parser.RequireKey;
 import fr.uga.pddl4j.plan.Plan;
 import fr.uga.pddl4j.plan.SequentialPlan;
 import fr.uga.pddl4j.planners.AbstractPlanner;
-import fr.uga.pddl4j.planners.SearchStrategy;
-import fr.uga.pddl4j.planners.statespace.search.StateSpaceSearch;
 import fr.uga.pddl4j.problem.DefaultProblem;
-import fr.uga.pddl4j.problem.Fluent;
 import fr.uga.pddl4j.problem.Problem;
-import fr.uga.pddl4j.problem.operator.Condition;
 import fr.uga.pddl4j.problem.operator.Effect;
 import fr.uga.pddl4j.problem.operator.ConditionalEffect;
 import fr.uga.pddl4j.util.BitVector;
-import fr.uga.pddl4j.problem.State;
 import fr.uga.pddl4j.problem.operator.Action;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.sat4j.minisat.SolverFactory;
 import org.sat4j.specs.ISolver;
@@ -103,6 +95,9 @@ public class SAT4JPlanner extends AbstractPlanner {
                 // Decode solution into a plan
                 Plan plan = decodeSolution(solver.model(), problem);
                 this.getStatistics().setTimeToSearch(solver.getTimeout());
+                long total = this.getStatistics().getTimeToParse() + this.getStatistics().getTimeToSearch() + this.getStatistics().getTimeToEncode();
+                System.out.print("|" + total + "|");
+                System.out.println(plan.actions().size() + "|");
                 return plan;
             } else {
                 LOGGER.info("* SAT search failed\n");

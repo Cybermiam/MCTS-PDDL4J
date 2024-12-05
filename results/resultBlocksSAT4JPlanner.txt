@@ -1,0 +1,283 @@
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+Lexical error at line 4, column 94, file (.\pddl\blocks\problems\p001.pddl) : unexpected token "handempty".
+Was expecting:
+    ")" ...
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+parsing domain file "domain.pddl" done successfully
+parsing problem file "p002.pddl" done successfully
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory.Universe.getNarrowOopBase()
+
+problem instantiation done successfully (40 actions, 29 fluents)
+
+* Starting SAT-based search 
+* SAT search succeeded
+|139|6|
+
+found plan as follows:
+
+0: (unstack a d) [0]
+1: (  stack d c) [0]
+2: (  stack c b) [0]
+3: (  stack a d) [0]
+4: (  stack a a) [0]
+5: (  pick-up d) [0]
+
+time spent:       0.03 seconds parsing 
+                  0.05 seconds encoding 
+                  0.06 seconds searching
+                  0.14 seconds total time
+
+memory used:      0.18 MBytes for problem representation
+                  0.00 MBytes for searching
+                  0.18 MBytes total
+
+
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+parsing domain file "domain.pddl" done successfully
+parsing problem file "p003.pddl" done successfully
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory.Universe.getNarrowOopBase()
+
+problem instantiation done successfully (40 actions, 29 fluents)
+
+* Starting SAT-based search 
+* SAT search succeeded
+|139|8|
+
+found plan as follows:
+
+0: ( stack a d) [0]
+1: ( stack b a) [0]
+2: ( stack b c) [0]
+3: (put-down a) [0]
+4: (put-down d) [0]
+5: (put-down b) [0]
+6: ( pick-up c) [0]
+7: ( pick-up d) [0]
+
+time spent:       0.03 seconds parsing 
+                  0.05 seconds encoding 
+                  0.06 seconds searching
+                  0.14 seconds total time
+
+memory used:      0.18 MBytes for problem representation
+                  0.00 MBytes for searching
+                  0.18 MBytes total
+
+
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+parsing domain file "domain.pddl" done successfully
+parsing problem file "p004.pddl" done successfully
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory.Universe.getNarrowOopBase()
+
+problem instantiation done successfully (60 actions, 41 fluents)
+
+* Starting SAT-based search 
+* SAT search succeeded
+|158|8|
+
+found plan as follows:
+
+0: ( stack d a) [0]
+1: ( stack a e) [0]
+2: ( stack e c) [0]
+3: ( stack b d) [0]
+4: ( stack b c) [0]
+5: ( stack b b) [0]
+6: (put-down c) [0]
+7: ( pick-up a) [0]
+
+time spent:       0.03 seconds parsing 
+                  0.07 seconds encoding 
+                  0.06 seconds searching
+                  0.16 seconds total time
+
+memory used:      0.26 MBytes for problem representation
+                  0.00 MBytes for searching
+                  0.26 MBytes total
+
+
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+parsing domain file "domain.pddl" done successfully
+parsing problem file "p005.pddl" done successfully
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory.Universe.getNarrowOopBase()
+
+problem instantiation done successfully (60 actions, 41 fluents)
+
+* Starting SAT-based search 
+* SAT search succeeded
+|153|9|
+
+found plan as follows:
+
+0: (unstack a d) [0]
+1: (  stack d c) [0]
+2: (  stack a e) [0]
+3: (  stack a d) [0]
+4: (  stack a a) [0]
+5: ( put-down e) [0]
+6: ( put-down c) [0]
+7: ( put-down a) [0]
+8: (  pick-up c) [0]
+
+time spent:       0.04 seconds parsing 
+                  0.06 seconds encoding 
+                  0.06 seconds searching
+                  0.15 seconds total time
+
+memory used:      0.26 MBytes for problem representation
+                  0.00 MBytes for searching
+                  0.26 MBytes total
+
+
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+parsing domain file "domain.pddl" done successfully
+parsing problem file "p006.pddl" done successfully
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory.Universe.getNarrowOopBase()
+
+problem instantiation done successfully (60 actions, 41 fluents)
+
+* Starting SAT-based search 
+* SAT search succeeded
+|152|7|
+
+found plan as follows:
+
+0: (unstack a b) [0]
+1: (  stack b e) [0]
+2: (  stack e c) [0]
+3: (  stack c d) [0]
+4: (  stack a b) [0]
+5: (  stack a c) [0]
+6: (  pick-up e) [0]
+
+time spent:       0.03 seconds parsing 
+                  0.06 seconds encoding 
+                  0.06 seconds searching
+                  0.15 seconds total time
+
+memory used:      0.26 MBytes for problem representation
+                  0.00 MBytes for searching
+                  0.26 MBytes total
+
+
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+parsing domain file "domain.pddl" done successfully
+parsing problem file "p007.pddl" done successfully
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory.Universe.getNarrowOopBase()
+
+problem instantiation done successfully (84 actions, 55 fluents)
+
+* Starting SAT-based search 
+* SAT search succeeded
+|292|9|
+
+found plan as follows:
+
+0: (unstack e b) [0]
+1: (  stack d a) [0]
+2: (  stack b f) [0]
+3: (  stack a c) [0]
+4: (  stack e f) [0]
+5: (  stack e a) [0]
+6: ( put-down d) [0]
+7: ( put-down b) [0]
+8: (  pick-up b) [0]
+
+time spent:       0.07 seconds parsing 
+                  0.16 seconds encoding 
+                  0.06 seconds searching
+                  0.29 seconds total time
+
+memory used:      0.35 MBytes for problem representation
+                  0.00 MBytes for searching
+                  0.35 MBytes total
+
+
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+parsing domain file "domain.pddl" done successfully
+parsing problem file "p008.pddl" done successfully
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory.Universe.getNarrowOopBase()
+
+problem instantiation done successfully (84 actions, 55 fluents)
+
+* Starting SAT-based search 
+* SAT search succeeded
+|195|12|
+
+found plan as follows:
+
+00: (unstack f d) [0]
+01: (  stack f b) [0]
+02: (  stack f c) [0]
+03: (  stack f d) [0]
+04: ( put-down a) [0]
+05: ( put-down b) [0]
+06: ( put-down c) [0]
+07: ( put-down d) [0]
+08: (  pick-up a) [0]
+09: (  pick-up b) [0]
+10: (  pick-up c) [0]
+11: (  pick-up d) [0]
+
+time spent:       0.04 seconds parsing 
+                  0.09 seconds encoding 
+                  0.06 seconds searching
+                  0.20 seconds total time
+
+memory used:      0.35 MBytes for problem representation
+                  0.00 MBytes for searching
+                  0.35 MBytes total
+
+
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+parsing domain file "domain.pddl" done successfully
+parsing problem file "p009.pddl" done successfully
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory.Universe.getNarrowOopBase()
+
+problem instantiation done successfully (84 actions, 55 fluents)
+
+* Starting SAT-based search 
+* SAT search succeeded
+|276|8|
+
+found plan as follows:
+
+0: (unstack e c) [0]
+1: (  stack c d) [0]
+2: (  stack d b) [0]
+3: (  stack b f) [0]
+4: (  stack f a) [0]
+5: (  stack e c) [0]
+6: (  stack e b) [0]
+7: (  pick-up b) [0]
+
+time spent:       0.06 seconds parsing 
+                  0.15 seconds encoding 
+                  0.06 seconds searching
+                  0.28 seconds total time
+
+memory used:      0.34 MBytes for problem representation
+                  0.00 MBytes for searching
+                  0.34 MBytes total
+
+
+WARNING: sun.reflect.Reflection.getCallerClass is not supported. This will impact performance.
+
+parsing domain file "domain.pddl" done successfully
+parsing problem file "p010.pddl" done successfully
