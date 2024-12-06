@@ -4,9 +4,9 @@ Ce git contient les rendus des différents TPs réalisés pour le module Planifi
 
 ## Création d'un MCTS
 
-Le fichier script.py génère des résultats visibles dans le fichier pdf Monte Carlo à la source du projet.
+Le fichier script.py génère des résultats visibles dans le fichier pdf [Monte Carlo](https://github.com/Cybermiam/PDDL4J-M2-IC/blob/main/Monte%20Carlo%20Tree%20Search%20Planning.pdf) à la source du projet.
 
-Les classes appeleés sont MCRW et MCTOpti.
+Les classes appeleés sont MCRW et MCTOpti. Cependant, notre MCTS n'est pas optimisé, il reste donc globalement moins performant qu'un a*.
 
 ## SAT Planner
 
