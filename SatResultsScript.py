@@ -5,12 +5,12 @@ import os
 
 # On définit les commandes à exécuter pour chaque solveur
 commands = {
-    "SAT4JPlanner": "java -cp \"classes;lib/pddl4j-4.0.0.jar;lib/org.sat4j.core.jar\" fr.uga.pddl4j.examples.asp.SAT4JPlanner",
+    "SAT4JPlanner": "java -cp \"classes;lib/pddl4j-4.0.0.jar;lib/org.sat4j.core.jar\" fr.uga.pddl4j.examples.asp.SATV2",
     "HSP": "java -cp \"classes;lib/pddl4j-4.0.0.jar;lib/org.sat4j.core.jar\" fr.uga.pddl4j.examples.asp.HSP"
 }
 
 # On définit les domaines et les problèmes à résoudre
-domains = ["depots","gripper","logistics", "blocks"]
+domains = ["logistics", "blocks"]
 problems = []
 
 # Pour les problèmes, on selectionne 10 problèmes de chaque domaine
@@ -55,9 +55,9 @@ def validate(output, domain, problem_file) -> bool:
         
 
 # Fonction qui execute les commandes java, max 5 minutes
-def execute_command(command, timeout=300):
+def execute_command(command, timeout=30):
     try:
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=timeout)
+        result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=30)
         return result.stdout
     except subprocess.TimeoutExpired:
         return "TimeoutExpired"
@@ -65,7 +65,7 @@ def execute_command(command, timeout=300):
 # Fonction pour parser le résultat d'une commande
 def parse_output(output):
     if output == "TimeoutExpired":
-        time_spent = float('inf')
+        time_spent = 5000
         steps = 0
         return time_spent, steps
 
@@ -97,7 +97,7 @@ for problem in problems:
         
         if not validate(output, domain, problem_file):
             # Si le plan est invalide, on met le temps à infini et les pas a 0 pour le calcul du score
-            time_spent, steps = float('inf'), 0
+            time_spent, steps = 5000, 0
             print("Plan is invalid")
         else:
             print("Plan is valid")
@@ -121,11 +121,11 @@ def calculate_scores(results, domains, commands):
                 solver1, solver2 = problem_results
                 time1, steps1 = solver1[2], solver1[3]
                 time2, steps2 = solver2[2], solver2[3]
-                if time1 == float('inf') and time2 == float('inf'):
+                if time1 == 5000 and time2 == 5000:
                     continue
-                elif time1 == float('inf'):
+                elif time1 == 5000:
                     scores[solver2[0]][domain] += 2
-                elif time2 == float('inf'):
+                elif time2 == 5000:
                     scores[solver1[0]][domain] += 2
                 else:
                     if time1 < time2:
