@@ -21,3 +21,5 @@ Le fichier [SATResults10Problems.md](https://github.com/Cybermiam/PDDL4J-M2-IC/b
 
 A noter que les resultats sont basés seulement sur deux domaines car le sat peut prendre jusqu'à 15 min par problème au dela du problème 4 sur depots et gripper. De plus, comparé a une execution sur linux, les temps de résolutions pour SAT semblent
 faux, les résultats sont donc a prendre avec du recul.
+
+La réponse à l'exercice 2 se trouve [dans ce fichier pdf](https://github.com/Cybermiam/PDDL4J-M2-IC/blob/main/PDDL%20TP%203%20-%20BOUHJOURA%20-%20DI%20MALTA.pdf).
