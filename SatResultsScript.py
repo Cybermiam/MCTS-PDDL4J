@@ -2,33 +2,75 @@ from matplotlib import pyplot as plt
 import re
 import subprocess
 import os
-# Define the commands and problems
+
+# On définit les commandes à exécuter pour chaque solveur
 commands = {
     "SAT4JPlanner": "java -cp \"classes;lib/pddl4j-4.0.0.jar;lib/org.sat4j.core.jar\" fr.uga.pddl4j.examples.asp.SAT4JPlanner",
     "HSP": "java -cp \"classes;lib/pddl4j-4.0.0.jar;lib/org.sat4j.core.jar\" fr.uga.pddl4j.examples.asp.HSP"
 }
-domains = ["logistics", "blocks", "gripper", "depots"]
+
+# On définit les domaines et les problèmes à résoudre
+domains = ["depots","gripper","logistics", "blocks"]
 problems = []
 
+# Pour les problèmes, on selectionne 10 problèmes de chaque domaine
 for domain in domains:
     for i in range(1, 11):
         problems.append((f"pddl/{domain}/domain/domain.pddl", f"pddl/{domain}/problems/p{i:02}.pddl"))
 
-# Function to execute a command and capture the output
+# Fonction pour vérifier la validité du plan
+def check_plan_validity(full_path_file_domain: str, full_path_file_problem: str, full_path_file_plan: str) -> bool:
+    print("Checking plan validity")
+    command = "wsl ./VAL/bin/Validate " + full_path_file_domain + " " + full_path_file_problem + " " + full_path_file_plan
+
+    print("Command used for validation: " + "\n")
+    print(command + "\n")
+
+    try:
+        output = subprocess.run(
+            command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+
+        if "Plan valid" in output.stdout:
+            return True
+        else:
+            return False
+    except subprocess.CalledProcessError as e:
+        return False
+
+
+# Fonction pour créer le fichier du plan et appeler la validation
+def validate(output, domain, problem_file) -> bool:
+    print("Constructing plan")
+    plan = ""
+    pattern = r"(\d+):\s*\(([^)]+)\)\s*\[(\d+)\]"
+    matches = re.findall(pattern, output)
+    plan_file = "./plan/plan.txt"
+
+    with open(plan_file, "w") as file:
+        for match in matches:
+            plan += f"{match[0]}: ({match[1]}) [{match[2]}]\n"
+        file.write(plan)
+
+    return check_plan_validity(domain, problem_file, plan_file)
+        
+
+# Fonction qui execute les commandes java, max 5 minutes
 def execute_command(command, timeout=300):
     try:
         result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=timeout)
         return result.stdout
     except subprocess.TimeoutExpired:
         return "TimeoutExpired"
-# Function to parse the output and extract relevant data
+
+# Fonction pour parser le résultat d'une commande
 def parse_output(output):
     if output == "TimeoutExpired":
-        return float('inf'), 0
-        # Regex pattern to capture x and y
-    patern = r"\|(\d+)\|(\d+)\|"
+        time_spent = float('inf')
+        steps = 0
+        return time_spent, steps
 
-    # Find matches
+    # On a ajouté dans le résultat des commandes un pattern type |time|steps| 
+    patern = r"\|(\d+)\|(\d+)\|" # On récupère le temps et le nombre d'étapes
     match = re.search(patern, output)
 
     if match:
@@ -41,10 +83,10 @@ def parse_output(output):
             time_spent = 0.0
         return time_spent, steps
 
-# Data storage
+# On initialise la liste des résultats
 results = []
 
-# Execute commands for each problem and store results
+# Boucle pour exécuter les commandes pour chaque problème
 for problem in problems:
     domain, problem_file = problem
     for solver, command in commands.items():
@@ -52,15 +94,23 @@ for problem in problems:
         print(f"Executing: {full_command}")
         output = execute_command(full_command)
         time_spent, steps = parse_output(output)
+        
+        if not validate(output, domain, problem_file):
+            # Si le plan est invalide, on met le temps à infini et les pas a 0 pour le calcul du score
+            time_spent, steps = float('inf'), 0
+            print("Plan is invalid")
+        else:
+            print("Plan is valid")
+        
         results.append((solver, problem_file, time_spent, steps))
 
 
-# Create xplot directory if it doesn't exist
+# Création du dossier xplot pour stocker les graphes si il n'existe pas
 if not os.path.exists("xplot"):
     os.makedirs("xplot")
 
 
-# Function to calculate scores
+# Calcul des scores pour chaque solveur
 def calculate_scores(results, domains, commands):
     scores = {solver: {domain: 0 for domain in domains} for solver in commands.keys()}
     for domain in domains:
@@ -92,7 +142,7 @@ def calculate_scores(results, domains, commands):
                         scores[solver1[0]][domain] += steps2 / steps1
     return scores
 
-# Generate Markdown file
+# Génération du fichier markdown des résultats
 with open("SATResults10Problems.md", "w") as md_file:
     md_file.write("# Comparison of SAT4JPlanner and HSP\n\n")
     md_file.write("| Solver | Problem | Time Spent (s) | Steps |\n")
@@ -100,15 +150,12 @@ with open("SATResults10Problems.md", "w") as md_file:
     for result in results:
         md_file.write(f"| {result[0]} | {result[1]} | {result[2]:.2f} | {result[3]} |\n")
 
-    # Calculate scores
     scores = calculate_scores(results, domains, commands)
 
-    # Generate domain-specific plots for steps and time
     for domain in domains:
         domain_times = {solver: sum(result[2] for result in results if result[0] == solver and domain in result[1]) for solver in commands.keys()}
         domain_steps = {solver: sum(result[3] for result in results if result[0] == solver and domain in result[1]) for solver in commands.keys()}
 
-        # Plot domain-specific total time
         plt.figure(figsize=(10, 5))
         plt.title(f"Total Time for {domain.capitalize()}")
         plt.bar(commands.keys(), [domain_times[solver] for solver in commands.keys()], color=['blue', 'orange'])
@@ -117,7 +164,6 @@ with open("SATResults10Problems.md", "w") as md_file:
         plt.savefig(domain_time_plot_filename)
         plt.close()
 
-        # Plot domain-specific total steps
         plt.figure(figsize=(10, 5))
         plt.title(f"Total Steps for {domain.capitalize()}")
         plt.bar(commands.keys(), [domain_steps[solver] for solver in commands.keys()], color=['blue', 'orange'])
@@ -126,7 +172,6 @@ with open("SATResults10Problems.md", "w") as md_file:
         plt.savefig(domain_steps_plot_filename)
         plt.close()
 
-        #plot domain-specific scores
         plt.figure(figsize=(10, 5))
         plt.title(f"Scores for {domain.capitalize()}")
         plt.bar(commands.keys(), [scores[solver][domain] for solver in commands.keys()], color=['blue', 'orange'])
@@ -135,18 +180,15 @@ with open("SATResults10Problems.md", "w") as md_file:
         plt.savefig(domain_scores_plot_filename)
         plt.close()
 
-        # Include domain-specific plots in Markdown file
         md_file.write(f"## {domain.capitalize()} Results\n\n")
         md_file.write(f"![Scores for {domain.capitalize()}]({domain_scores_plot_filename})\n")
         md_file.write(f"![Total Time for {domain.capitalize()}]({domain_time_plot_filename})\n")
         md_file.write(f"![Total Steps for {domain.capitalize()}]({domain_steps_plot_filename})\n")
 
-    # Overall results
     overall_scores = {solver: sum(scores[solver][domain] for domain in domains) for solver in commands.keys()}
     overall_steps = {solver: sum(result[3] for result in results if result[0] == solver) for solver in commands.keys()}
     overall_time = {solver: sum(result[2] for result in results if result[0] == solver) for solver in commands.keys()}
 
-    # Plot overall total time
     plt.figure(figsize=(10, 5))
     plt.title("Overall Total Time")
     plt.bar(commands.keys(), [overall_time[solver] for solver in commands.keys()], color=['blue', 'orange'])
@@ -155,7 +197,6 @@ with open("SATResults10Problems.md", "w") as md_file:
     plt.savefig(overall_time_plot_filename)
     plt.close()
 
-    # Plot overall total steps
     plt.figure(figsize=(10, 5))
     plt.title("Overall Total Steps")
     plt.bar(commands.keys(), [overall_steps[solver] for solver in commands.keys()], color=['blue', 'orange'])
@@ -164,7 +205,6 @@ with open("SATResults10Problems.md", "w") as md_file:
     plt.savefig(overall_steps_plot_filename)
     plt.close()
 
-    # Plot overall scores
     plt.figure(figsize=(10, 5))
     plt.title("Overall Scores")
     plt.bar(commands.keys(), [overall_scores[solver] for solver in commands.keys()], color=['blue', 'orange'])
@@ -173,10 +213,7 @@ with open("SATResults10Problems.md", "w") as md_file:
     plt.savefig(overall_scores_plot_filename)
     plt.close()
 
-    # Include overall plots in Markdown file
     md_file.write("## Overall Results\n\n")
     md_file.write(f"![Overall Total Time]({overall_time_plot_filename})\n")
     md_file.write(f"![Overall Total Steps]({overall_steps_plot_filename})\n")
     md_file.write(f"![Overall Scores]({overall_scores_plot_filename})\n")
-
-    
